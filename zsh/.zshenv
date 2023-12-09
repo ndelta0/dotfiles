@@ -1,3 +1,3 @@
-. "$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
 
-. "/home/piotr/.wasmedge/env"
+if [ -f "$HOME/.wasmedge/env" ]; then . "$HOME/.wasmedge/env"; fi
