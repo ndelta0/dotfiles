@@ -20,6 +20,7 @@ require("formatter").setup({
 		sh = { fts.sh.shfmt },
 		toml = { fts.toml.taplo },
 		yaml = { fts.yaml.prettierd },
+        zsh = { fts.zsh.beautysh }
 	},
 })
 
