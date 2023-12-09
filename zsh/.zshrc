@@ -141,17 +141,23 @@ fi
 autoload -U +X bashcompinit && bashcompinit
 
 consul_exec=`which consul`
-[ $? -eq 0 && -n "$consul_exec" && -x "$consul_exec" ] && complete -o nospace -C "$consul_exec" consul
+if [[ $? -eq 0 && -n "$consul_exec" && -x "$consul_exec" ]]; then
+    complete -o nospace -C "$consul_exec" consul
+fi
 
 vault_exec=`which vault`
-[ $? -eq 0 && -n "$vault_exec" && -x "$vault_exec" ] && complete -o nospace -C "$vault_exec" vault
+if [[ $? -eq 0 && -n "$vault_exec" && -x "$vault_exec" ]]; then
+    complete -o nospace -C "$vault_exec" vault
+fi
 
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 weed_exec=`which weed`
-[ $? -eq 0 && -s "$weed_exec" && -x "$weed_exec" ] && complete -o nospace -C "$weed_exec" weed
+[[ $? -eq 0 && -s "$weed_exec" && -x "$weed_exec" ]] && complete -o nospace -C "$weed_exec" weed
 
-[ -d "/var/lib/flatpak/exports/share" ] && export "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share"
-export PATH="$XDG_DATA_DIRS:$PATH"
+if [ -d "/var/lib/flatpak/exports/share" ]; then
+    export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share"
+    export PATH="$XDG_DATA_DIRS:$PATH"
+fi
 
-export GPG_TTY=$(tty) # Makes tui password entry work for gpg
+export GPG_TTY=`tty` # Makes tui password entry work for gpg
