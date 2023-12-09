@@ -120,58 +120,38 @@ export CPPFLAGS="-fuse-ld=mold"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-cnf () {
-  curl -sSfL "https://command-not-found.com/$*" | sed -n "s/^<code>pacman -S \(\S*\)<\/code>$/\1/p"
-}
-
-full_update () {
-  sudo pacman -Syyu;
-  yay -Syyu --aur;
-}
-
 export TERM="xterm-256color"
 
-export PATH="$HOME/.local/bin:/opt/vcpkg:$HOME/.local/dotnet/tools:$PATH"
-
-source "$HOME/.cargo/env"
+# TODO: set up path for dotnet and dotnet tools
+export PATH="$HOME/.local/bin:$PATH"
 
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
 bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 
 zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
 
-. "/home/piotr/.wasmedge/env"
-
-autoload bashcompinit
-bashcompinit
-source /opt/vcpkg/scripts/vcpkg_completion.zsh
+export VCPKG_ROOT="/opt/vcpkg"
+if [ -d "$VCPKG_ROOT" ]; then
+    export PATH="$VCPKG_ROOT:$PATH"
+    if [ -f "$VCPKG_ROOT/scripts/vcpkg_completion.zsh" ]; then
+        source "$VCPKG_ROOT/scripts/vcpkg_completion.zsh"
+    fi
+fi
 
 autoload -U +X bashcompinit && bashcompinit
 
-complete -o nospace -C /usr/bin/consul consul
-complete -o nospace -C /usr/bin/vault vault
+consul_exec=`which consul`
+[ $? -eq 0 && -n "$consul_exec" && -x "$consul_exec" ] && complete -o nospace -C "$consul_exec" consul
 
-export VAULT_ADDR="http://vault.service.consul:8200"
-export VAULT_TOKEN="hvs.bBggxPFGmf9BdLUgw0GworlE"
+vault_exec=`which vault`
+[ $? -eq 0 && -n "$vault_exec" && -x "$vault_exec" ] && complete -o nospace -C "$vault_exec" vault
 
-export CONSUL_HTTP_ADDR="169.254.1.1:8500"
-export CONSUL_HTTP_TOKEN="bf38cc2d-ce07-431d-72ef-d08fc04c89f2"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+weed_exec=`which weed`
+[ $? -eq 0 && -s "$weed_exec" && -x "$weed_exec" ] && complete -o nospace -C "$weed_exec" weed
 
-complete -o nospace -C /usr/local/bin/weed weed
-
-export XDG_DATA_DIRS="/var/lib/flatpak/exports/share"
+[ -d "/var/lib/flatpak/exports/share" ] && export "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share"
 export PATH="$XDG_DATA_DIRS:$PATH"
-
-# pnpm
-export PNPM_HOME="/home/piotr/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 export GPG_TTY=$(tty) # Makes tui password entry work for gpg

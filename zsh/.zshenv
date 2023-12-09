@@ -1,3 +1,11 @@
-if [ -f "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
+[ -s "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -s "$HOME/.wasmedge/env" ] && . "$HOME/.wasmedge/env"
 
-if [ -f "$HOME/.wasmedge/env" ]; then . "$HOME/.wasmedge/env"; fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # Load nvm
+
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
