@@ -18,9 +18,11 @@ require("formatter").setup({
 		python = { fts.python.black },
 		rust = { fts.rust.rustfmt },
 		sh = { fts.sh.shfmt },
+		svelte = { fts.svelte.prettier },
 		toml = { fts.toml.taplo },
+		typescript = { fts.typescript.prettierd },
 		yaml = { fts.yaml.prettierd },
-        zsh = { fts.zsh.beautysh }
+		zsh = { fts.zsh.beautysh },
 	},
 })
 

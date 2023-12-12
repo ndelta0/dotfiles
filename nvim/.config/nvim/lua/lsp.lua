@@ -26,6 +26,8 @@ require("mason-lspconfig").setup({
 		"marksman",
 		"taplo",
 		"yamlls",
+		"ast_grep",
+		"tsserver",
 	},
 })
 
@@ -61,19 +63,19 @@ local on_attach = function(client, bufnr)
 end
 
 lspconfig.asm_lsp.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.autotools_ls.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.bashls.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.clangd.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.cmake.setup({
@@ -81,19 +83,23 @@ lspconfig.cmake.setup({
 })
 
 lspconfig.docker_compose_language_service.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.dockerls.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.gopls.setup({
 	on_attach = on_attach,
 })
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 lspconfig.jsonls.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
+	capabilities = capabilities,
 })
 
 lspconfig.lua_ls.setup({
@@ -101,11 +107,11 @@ lspconfig.lua_ls.setup({
 })
 
 lspconfig.marksman.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.omnisharp.setup({
-    on_attach = on_attach,
+	on_attach = on_attach,
 })
 
 lspconfig.pylsp.setup({
@@ -121,5 +127,13 @@ lspconfig.taplo.setup({
 })
 
 lspconfig.yamlls.setup({
+	on_attach = on_attach,
+})
+
+lspconfig.ast_grep.setup({
+	on_attach = on_attach,
+})
+
+lspconfig.tsserver.setup({
 	on_attach = on_attach,
 })
