@@ -73,6 +73,7 @@ fpath+="$HOME/.local/share/autocomplete"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  colored-man-pages
   command-not-found
   zsh-autocomplete
   git
@@ -154,10 +155,5 @@ fi
 
 weed_exec=`which weed`
 [[ $? -eq 0 && -s "$weed_exec" && -x "$weed_exec" ]] && complete -o nospace -C "$weed_exec" weed
-
-if [ -d "/var/lib/flatpak/exports/share" ]; then
-    export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share"
-    export PATH="$XDG_DATA_DIRS:$PATH"
-fi
 
 export GPG_TTY=`tty` # Makes tui password entry work for gpg
