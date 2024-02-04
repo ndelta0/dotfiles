@@ -107,10 +107,9 @@ export EDITOR="nvim"
 # export ARCHFLAGS="-arch x86_64"
 export CC=clang
 export CXX=clang++
-export CPP=$CXX
+export CPP="$CC -E"
 export LD=ld.mold
-export CFLAGS="-fuse-ld=mold"
-export CPPFLAGS="-fuse-ld=mold"
+export LDFLAGS="-fuse-ld=mold"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
